@@ -1,3 +1,5 @@
+const { After } = require('@wdio/cucumber-framework')
+
 exports.config = {
   // ====================
   // Runner Configuration
@@ -106,6 +108,7 @@ exports.config = {
     global.expect = chai.expect
     browser.setWindowSize(1920, 1080)
   }
+  ,
   /**
    * Gets executed after all workers got shut down and the process is about to exit. An error
    * thrown in the onComplete hook will result in the test run failing.
@@ -116,4 +119,10 @@ exports.config = {
    */
   /* onComplete: function (exitCode, config, capabilities, results) {
   } */
+
+  //add onComplete hook to close chromedriver instances to save CPU usage
+  After: function (exitCode, config, capabilities, results) {
+    browser.close()
+    browser.quit()
+  }
 }
